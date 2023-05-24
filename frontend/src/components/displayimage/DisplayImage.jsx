@@ -22,7 +22,7 @@ const DisplayImage = () => {
     const MySwal = withReactContent(Swal)
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/list/`)
+        axios.get(`https://gallery-manager.onrender.com/list/`)
         .then(response => {
             setImageList(response.data.files);
             setNextPageToken(response.data.nextPageToken)
@@ -33,7 +33,7 @@ const DisplayImage = () => {
     }, [])
 
     const refresh = async () => {
-        await axios.get(`http://localhost:8080/list/${nextPageToken}`)
+        await axios.get(`https://gallery-manager.onrender.com/list/${nextPageToken}`)
         .then(response => {
             // if (response.data.files.length >= 0 || response.data.files.length === 10) {
             //     setNextBtn(false)
@@ -72,7 +72,7 @@ const DisplayImage = () => {
 
         const formData = new FormData(formElem);
 
-        await axios.post('http://localhost:8080/upload', formData)
+        await axios.post('https://gallery-manager.onrender.com/upload', formData)
         .then(response => {
             console.log(response.data);
 
@@ -83,7 +83,7 @@ const DisplayImage = () => {
     }
 
     const deleteImage = async (id) => {
-        await axios.delete(`http://localhost:8080/delete/${id}`)
+        await axios.delete(`https://gallery-manager.onrender.com/delete/${id}`)
             .then(response => {
                 console.log(response)
                 const newFiles = imageList.filter(item => item.id !== id)
