@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import GalleryFolder from './components/galleryfolder/GalleryFolder';
+// import GalleryFolder from './components/galleryfolder/GalleryFolder';
 import DisplayImage from './components/displayimage/DisplayImage';
 
 function App() {

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import emailjs from '@emailjs/browser';
-import ReactWhatsapp from 'react-whatsapp';
+// import ReactWhatsapp from 'react-whatsapp';
 import QRCode from 'qrcode'
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsQrCode, BsWhatsapp } from 'react-icons/bs';
@@ -15,7 +15,7 @@ const DisplayImage = () => {
 
     const [imgId, setImgId] = useState('')
     
-    const [nextBtn, setNextBtn] = useState(true);
+    // const [nextBtn, setNextBtn] = useState(true);
 
     const [nextPageToken, setNextPageToken] = useState('blank')
     
@@ -174,7 +174,7 @@ const DisplayImage = () => {
 	}
 
     const textSample = () => {
-        const phoneNumber = '971582813404'; // Replace with recipient's phone number
+        // const phoneNumber = '971582813404'; // Replace with recipient's phone number
         const message = `Here's your image: ${url}`; // Replace with your message
 
         const urlHandle = `https://api.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(message)}`;
