@@ -70,7 +70,6 @@
     content: 'Add Images';
     display: inline-block;
     /* background: #0D6EFD; */
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
     border: 1px solid #999;
     border-radius: 3px;
     padding: 5px 8px;
@@ -89,7 +88,6 @@
     border-color: black;
 }
 .input-file:active::before {
-    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 
 .lock-screen img {
