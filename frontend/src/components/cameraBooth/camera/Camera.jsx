@@ -24,11 +24,11 @@ const Camera = (props) => {
     const [displayCount, setDisplayCount] = useState(false)
     const [countdown, setCountdown] = useState(5)
 
-    const videoConstraints = {
-        width: 1280,
-        height: 720,
-        facingMode: "user",
-    };
+    // const videoConstraints = {
+    //     width: 1280,
+    //     height: 720,
+    //     facingMode: "user",
+    // };
 
     const countdownFunction = async () => {
         let count = 5
@@ -55,10 +55,10 @@ const Camera = (props) => {
 
     const [selectedCamera, setSelectedCamera] = useState('');
 
-    const handleCameraChange = (event) => {
-        const deviceId = event.target.value;
-        setSelectedCamera(deviceId);
-    };
+    // const handleCameraChange = (event) => {
+    //     const deviceId = event.target.value;
+    //     setSelectedCamera(deviceId);
+    // };
 
     const getVideoInputDevices = async () => {
         try {
@@ -74,10 +74,10 @@ const Camera = (props) => {
     const [videoInputDevices, setVideoInputDevices] = useState([]);
 
     useEffect(() => {
-    getVideoInputDevices().then(devices => {
-        setVideoInputDevices(devices);
-        setSelectedCamera(devices[0]?.deviceId || ''); // Set the first camera as the default selected camera
-    });
+        getVideoInputDevices().then(devices => {
+            setVideoInputDevices(devices);
+            setSelectedCamera(devices[0]?.deviceId || ''); // Set the first camera as the default selected camera
+        });
     }, []);
 
     const base64ToBlob = (base64String) => {
@@ -118,6 +118,7 @@ const Camera = (props) => {
             <div className='camera-container'>
                 <div className="camera">
                 <Link to="/" className='btn btn-primary'>Menu</Link>
+                <input type="hidden" value={videoInputDevices} />
                 {/* <select onChange={handleCameraChange} value={selectedCamera}>
                     {videoInputDevices.map(device => (
                         <option key={device.deviceId} value={device.deviceId}>
