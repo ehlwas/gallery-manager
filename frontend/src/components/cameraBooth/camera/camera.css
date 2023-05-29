@@ -1,0 +1,26 @@
+.camera-container {
+    background-color: antiquewhite;
+    height: 100vh;
+    width: 100vw;
+}
+
+.camera {
+    height: 100vh;
+}
+.webcam {
+    margin-top: 5vh;
+}
+.countdown {
+    height: 100vh;
+    width: 100vw;
+}
+.countdown-text {
+    color: white;
+    font-size: xx-large;
+    margin: 0;
+    position: absolute;
+    top: 40vh;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

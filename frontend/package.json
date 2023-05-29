@@ -17,6 +17,7 @@
     "react-medium-image-zoom": "^5.1.6",
     "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "react-webcam": "^7.0.1",
     "react-whatsapp": "^0.3.0",
     "sweetalert2": "^11.7.5",
     "sweetalert2-react-content": "^5.0.7",

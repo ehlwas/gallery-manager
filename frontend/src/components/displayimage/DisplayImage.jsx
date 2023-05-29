@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom';
 import axios from 'axios'
 import emailjs from '@emailjs/browser';
 // import ReactWhatsapp from 'react-whatsapp';
@@ -224,6 +225,7 @@ const DisplayImage = () => {
 
     return (
         <div className='display-image-container'>
+            <Link to="/" className='btn btn-primary'>Menu</Link>
             {lockScreen && <div className='full-preview position-fixed lock-screen' onClick={() => setLockScreen(prev => !prev)}>
                 <div className='text-center'>
                     <img src={'https://drive.google.com/uc?export=view&id=1H2cVnBthwZD5ZsFZ4U8qzDAe8PWCG-VH'} alt={imgId} className='image-preview'/>

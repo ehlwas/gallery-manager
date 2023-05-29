@@ -52,7 +52,7 @@ const uploadLogo = async (fileObject) => {
       },
       requestBody: {
         name: fileObject.originalname,
-        parents: ["1IDgXOMzKpzernHqZmsSBYqU94NHRD8Q_"],
+        parents: ["1WY0MWd9oaLKWVi2TFbXaoyCJU-LEAgZ8"],
       },
       fields: "id,name",
     });
@@ -62,7 +62,7 @@ const uploadLogo = async (fileObject) => {
 const getLogoList = async () => {
     try {
         const data = await google.drive({ version: "v3", auth }).files.list({
-            q: `'1IDgXOMzKpzernHqZmsSBYqU94NHRD8Q_' in parents and trashed = false`,
+            q: `'1WY0MWd9oaLKWVi2TFbXaoyCJU-LEAgZ8' in parents and trashed = false`,
             fields: "files(id, name, mimeType)",
         })
     
