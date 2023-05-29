@@ -6,6 +6,7 @@ import Booth from './components/cameraBooth/Booth';
 function App() {
   return (
     <div style={{ backgroundColor: "#121212", height: "100vh" }}>
+
       <Router>
         <Routes>
           <Route path='/' element={<Menu />} />

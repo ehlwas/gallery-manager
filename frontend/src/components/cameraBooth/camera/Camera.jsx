@@ -24,11 +24,14 @@ const Camera = (props) => {
     const [displayCount, setDisplayCount] = useState(false)
     const [countdown, setCountdown] = useState(5)
 
-    // const videoConstraints = {
-    //     width: 1280,
-    //     height: 720,
-    //     facingMode: "user",
-    // };
+    const [defaultCameraId, setDefaultCameraId] = useState(null);
+
+    const videoConstraints = {
+        width: 1280,
+        height: 720,
+        // facingMode: "user",
+        deviceId: defaultCameraId
+    };
 
     const countdownFunction = async () => {
         let count = 5
@@ -51,35 +54,6 @@ const Camera = (props) => {
         setDisplayCount(false)
     }
 
-
-
-    const [selectedCamera, setSelectedCamera] = useState('');
-
-    // const handleCameraChange = (event) => {
-    //     const deviceId = event.target.value;
-    //     setSelectedCamera(deviceId);
-    // };
-
-    const getVideoInputDevices = async () => {
-        try {
-          const devices = await navigator.mediaDevices.enumerateDevices();
-          const videoInputDevices = devices.filter(device => device.kind === 'videoinput');
-          return videoInputDevices;
-        } catch (error) {
-          console.error('Error enumerating video input devices:', error);
-          return [];
-        }
-    };
-
-    const [videoInputDevices, setVideoInputDevices] = useState([]);
-
-    useEffect(() => {
-        getVideoInputDevices().then(devices => {
-            setVideoInputDevices(devices);
-            setSelectedCamera(devices[0]?.deviceId || ''); // Set the first camera as the default selected camera
-        });
-    }, []);
-
     const base64ToBlob = (base64String) => {
         const byteCharacters = atob(base64String.split(",")[1]);
         const byteNumbers = new Array(byteCharacters.length);
@@ -99,7 +73,7 @@ const Camera = (props) => {
         const formData = new FormData();
         formData.append("file", blob, "image.png");
     
-        await axios.post('https://gallery-manager.onrender.com/upload', formData)
+        await axios.post('http://localhost:8080/upload', formData)
         .then(response => {
             console.log(response);
             setImgCon(null)
@@ -113,49 +87,56 @@ const Camera = (props) => {
         })
     }
 
+    useEffect(() => {
+        getVirtualCameraDeviceId().then(cameraId => {
+          setDefaultCameraId(cameraId);
+        });
+    }, []);
+      
+
+    const getVirtualCameraDeviceId = async () => {
+        try {
+          const devices = await navigator.mediaDevices.enumerateDevices();
+          const virtualCameraDevice = devices.find(device => device.label === 'OBS Virtual Camera');
+          return virtualCameraDevice?.deviceId || null;
+        } catch (error) {
+          console.error('Error enumerating video input devices:', error);
+          return null;
+        }
+    };
+      
+
     return (
         <>
             <div className='camera-container'>
                 <div className="camera">
                 <Link to="/" className='btn btn-primary'>Menu</Link>
-                <input type="hidden" value={videoInputDevices} />
-                {/* <select onChange={handleCameraChange} value={selectedCamera}>
-                    {videoInputDevices.map(device => (
-                        <option key={device.deviceId} value={device.deviceId}>
-                        {device.label}
-                        </option>
-                    ))}
-                </select> */}
-
-                    {imgCon ? 
-                    <>
-                        <div className='text-center'>
-                            <img className='webcam' name="Files" src={imgCon} alt='prev-img' />
-                            <div>
-                                <button className='btn btn-secondary mx-1 mt-3' onClick={() => setImgCon(null)}><BsHandThumbsDown /></button>
-                                <button className='btn btn-primary mx-1 mt-3' onClick={() => imageSubmit()}><BsHandThumbsUp /></button>
-                            </div>
+                {imgCon ? 
+                <>
+                    <div className='text-center'>
+                        <img className='webcam' name="Files" src={imgCon} alt='prev-img' />
+                        <div>
+                            <button className='btn btn-secondary mx-1 mt-3' onClick={() => setImgCon(null)}><BsHandThumbsDown /></button>
+                            <button className='btn btn-primary mx-1 mt-3' onClick={() => imageSubmit()}><BsHandThumbsUp /></button>
                         </div>
-                    </>
-                    :
-                    <>
-                        {isLogoExit && 
-                        <div className='text-center'>
-                            {displayCount && <h2 className='countdown-text'>{countdown}</h2>}
-                            <Webcam
-                                className='webcam'
-                                ref={webRef}
-                                videoSource={selectedCamera}
-                                // videoConstraints={videoConstraints}
-                                height={720}
-                                width={1280}
-                            />
-                            <div>
-                                <button className='btn btn-primary mt-3' onClick={() => captureImg()}><AiOutlineCamera /></button>
-                            </div>
+                    </div>
+                </>
+                :
+                <>
+                    {isLogoExit && 
+                    <div className='text-center'>
+                        {displayCount && <h2 className='countdown-text'>{countdown}</h2>}
+                        <Webcam
+                            className='webcam'
+                            ref={webRef}
+                            videoConstraints={videoConstraints}
+                        />
+                        <div>
+                            <button className='btn btn-primary mt-3' onClick={() => captureImg()}><AiOutlineCamera /></button>
                         </div>
-                        }
-                    </>}
+                    </div>
+                    }
+                </>}
                 </div>
             </div>
         </>
