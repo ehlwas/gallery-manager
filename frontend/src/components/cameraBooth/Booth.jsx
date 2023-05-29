@@ -18,7 +18,7 @@ function Booth() {
   const [isLogoExit, setIsLogoExit] = useState(false)
     
   // const deleteImage = async (id) => {
-  //   await axios.delete(`http://localhost:8080/delete/${id}`)
+  //   await axios.delete(`https://gallery-manager.onrender.com/delete/${id}`)
   //     .then(response => {
   //       console.log(response)
   //       refresh()
@@ -26,7 +26,7 @@ function Booth() {
   // }
 
   // const refresh = () => {
-  //   axios.get('http://localhost:8080/list')
+  //   axios.get('https://gallery-manager.onrender.com/list')
   //     .then(response => {
   //       setData(response.data);
   //     })

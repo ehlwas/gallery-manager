@@ -13,7 +13,7 @@ const IntroLogo = (props) => {
     }, []);
     
     const getLogo = async () => {
-        await axios.get('http://localhost:8080/getLogo')
+        await axios.get('https://gallery-manager.onrender.com/getLogo')
           .then(response => {
             setLogoHandler(response.data[0]);
           })

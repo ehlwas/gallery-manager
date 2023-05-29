@@ -99,7 +99,7 @@ const Camera = (props) => {
         const formData = new FormData();
         formData.append("file", blob, "image.png");
     
-        await axios.post('http://localhost:8080/upload', formData)
+        await axios.post('https://gallery-manager.onrender.com/upload', formData)
         .then(response => {
             console.log(response);
             setImgCon(null)
