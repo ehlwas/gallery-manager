@@ -52,7 +52,11 @@ const DisplayImage = () => {
         });
     }
 
-    const zoomImg = (id) => {
+    const [itemType, setItemType] = useState();
+
+    const zoomItem = (id, type) => {
+        setItemType(type)
+
         if (imgId) {
             setImgId('')
         } else {
@@ -233,7 +237,10 @@ const DisplayImage = () => {
             </div>}
             {imgId && <div className='full-preview position-fixed' onClick={() => hidePreview('')}>
                 <div className='text-center my-5'>
-                    <img src={'https://drive.google.com/uc?export=view&id='+imgId} alt={imgId} className='image-preview' width='800px'/>
+                    {itemType === 'image' ? <img src={'https://drive.google.com/uc?export=view&id='+imgId} alt={imgId} className='image-preview' width='800px'/> :
+                    <video width='400px' controls="controls" preload="metadata">
+                        <source src={'https://drive.google.com/uc?export=view&id='+imgId} type="video/mp4" />
+                    </video>}
                     <div className='send-option-icons my-3'>
                         <button className='btn btn-info' onClick={(e) => showFormBtn(e, 'gmail')}><HiOutlineMail /></button>
                         <button className='btn btn-info mx-3' onClick={(e) => showFormBtn(e, 'qr-code')}><BsQrCode /></button>
@@ -248,10 +255,15 @@ const DisplayImage = () => {
             </form>
             <button className='btn btn-info position-absolute end-0' onClick={() => setLockScreen(prev => !prev)}>Lock</button>
             <div className='col d-flex justify-content-center align-items-center flex-wrap image-card-container'>
+                
                 {imageList.map(item => (
                     <p key={item.id} className='position-relative mx-3 image-card'>
                         <button className='btn btn-info btn-sm position-absolute end-0' onClick={() => deleteImage(item.id)}>X</button>
-                        <img src={'https://drive.google.com/uc?export=view&id='+item.id} alt={item.name} onClick={() => zoomImg(item.id)} width='230px'/>
+                        {item.mimeType.includes("image") ? 
+                        <img src={'https://drive.google.com/uc?export=view&id='+item.id} alt={item.name} onClick={() => zoomItem(item.id, 'image')} width='230px'/> : 
+                        <video width='230px' preload="metadata" onClick={() => zoomItem(item.id, 'video')}>
+                            <source src={'https://drive.google.com/uc?export=view&id='+item.id} type="video/mp4" />
+                        </video>}
                     </p>
                 ))}
             </div>

@@ -28,10 +28,10 @@ const uploadFile = async (fileObject) => {
         name: fileObject.originalname,
         parents: ["1IDgXOMzKpzernHqZmsSBYqU94NHRD8Q_"],
       },
-      fields: "id,name",
+      fields: "id,name,mimeType",
     });
 
-    console.log(`Uploaded file ${data.name} ${data.id}`);
+    console.log(`Uploaded file ${data.name} ${data.id} ${data.mimeType}`);
     return data
 };
 
@@ -121,8 +121,8 @@ const uploadImage = async (req, res) => {
                 name: container.name,
                 mimeType: container.mimeType
             })
-            console.log(`this is container: ${container}`)
         }
+        console.log(newImgId)
 
         res.status(200).send(newImgId);
     } catch (f) {
