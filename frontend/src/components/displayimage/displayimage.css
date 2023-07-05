@@ -4,7 +4,8 @@
 }
 
 .image-card-container {
-    margin: 50px auto;
+    margin: 0px auto;
+    /* padding-top: 0px; */
     width: 70vw;
 }
 
@@ -14,24 +15,22 @@
     position: fixed;
     height: 100vh;
     width: 100vw;
+    overflow-y: auto;
     z-index: +1;
 }
 .image-preview {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    
+  width: auto;
+  height : auto;
+  max-height: 100%;
+  max-width: 100%;
 }
 .image-preview-form {
-    margin: 0;
-    position: absolute;
-    top: 77vh;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
+    margin: 0 auto;
+    width: 250px;
+}
+.send-option-icons {
+    position: relative;
 }
 
 .image-card {
@@ -48,14 +47,6 @@
     transition: all .4s ease;
 }
 
-.send-option-icons {
-    margin: 0;
-    position: absolute;
-    top: 70vh;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
 
 .input-file {
     width: 130px;
@@ -64,10 +55,9 @@
     visibility: hidden;
 }
 .input-file::before {
-    content: 'Select Images';
+    content: 'Add Images';
     display: inline-block;
     /* background: #0D6EFD; */
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
     border: 1px solid #999;
     border-radius: 3px;
     padding: 5px 8px;
@@ -86,5 +76,9 @@
     border-color: black;
 }
 .input-file:active::before {
-    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.lock-screen img {
+    width: 100%;
+    height: 100vh;
 }

@@ -9,7 +9,7 @@ import { BsQrCode, BsWhatsapp } from 'react-icons/bs';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-import './displayimageTest.css'
+import './displayimage.css'
 
 const DisplayImage = () => {
     const [imageList, setImageList] = useState([])
@@ -33,6 +33,29 @@ const DisplayImage = () => {
         });
     }, [])
 
+    const bodyScrollOff = () => {
+        const style = document.createElement('style');
+  
+        if (imgId)
+        {
+          style.innerHTML = `
+          body {
+              overflow: hidden;
+          }
+          `;
+          document.body.appendChild(style);
+        }
+        else
+        {
+          style.innerHTML = `
+          body {
+              overflow: auto;
+          }
+          `;
+          document.body.appendChild(style);
+        }
+    }
+
     const refresh = async () => {
         await axios.get(`https://gallery-manager.onrender.com/list/${nextPageToken}`)
         .then(response => {
@@ -55,6 +78,7 @@ const DisplayImage = () => {
     const [itemType, setItemType] = useState();
 
     const zoomItem = (id, type) => {
+        bodyScrollOff()
         setItemType(type)
 
         if (imgId) {
@@ -118,6 +142,11 @@ const DisplayImage = () => {
 
     const showFormBtn = (e, formType) => {
         e.stopPropagation()
+
+        if (formType === showForm) {
+            setShowForm('')
+            return
+        }
 
         if (formType === 'gmail') {
             setShowForm(formType)
@@ -229,42 +258,58 @@ const DisplayImage = () => {
 
     return (
         <div className='display-image-container'>
-            <Link to="/" className='btn btn-primary'>Menu</Link>
+            {!lockScreen && <div className='position-sticky fixed-top d-flex justify-content-center align-content-center py-3 gap-5' style={{ backgroundColor: '#121212' }}>
+                <div><Link to="/" className='btn btn-primary'>Menu</Link></div>
+                <div>
+                    <form onSubmit={uploadImg}>
+                        <input className='input-file' id='input-file' type="file" name="Files" onChange={uploadFile} required multiple />
+                        {isThereFile && <button className='btn btn-sm btn-primary' type="submit" disabled={!isThereFile}>Submit</button>}
+                    </form>
+                </div>
+                <div><button className='btn btn-info' onClick={() => setLockScreen(prev => !prev)}>Lock</button></div>
+            </div>}
             {lockScreen && <div className='full-preview position-fixed lock-screen' onClick={() => setLockScreen(prev => !prev)}>
                 <div className='text-center'>
                     <img src={'https://drive.google.com/uc?export=view&id=1H2cVnBthwZD5ZsFZ4U8qzDAe8PWCG-VH'} alt={imgId} className='image-preview'/>
                 </div>
             </div>}
-            {imgId && <div className='full-preview position-fixed' onClick={() => hidePreview('')}>
-                <div className='text-center my-5'>
-                    {itemType === 'image' ? <img src={'https://drive.google.com/uc?export=view&id='+imgId} alt={imgId} className='image-preview' width='800px'/> :
-                    <video width='400px' controls="controls" preload="metadata">
-                        <source src={'https://drive.google.com/uc?export=view&id='+imgId} type="video/mp4" />
-                    </video>}
-                    <div className='send-option-icons my-3'>
-                        <button className='btn btn-info' onClick={(e) => showFormBtn(e, 'gmail')}><HiOutlineMail /></button>
-                        <button className='btn btn-info mx-3' onClick={(e) => showFormBtn(e, 'qr-code')}><BsQrCode /></button>
-                        <button className='btn btn-info' onClick={(e) => showFormBtn(e, 'number')}><BsWhatsapp /></button>
+            {imgId && <div className='full-preview position-fixed' style={{ zIndex: '9' }} onClick={() => hidePreview('')}>
+                <div className='text-center my-3'>
+                    <div>
+                        <div className='send-option-icons'>
+                            <button className='btn btn-info' onClick={(e) => showFormBtn(e, 'gmail')}><HiOutlineMail /></button>
+                            <button className='btn btn-info mx-3' onClick={(e) => showFormBtn(e, 'qr-code')}><BsQrCode /></button>
+                            <button className='btn btn-info' onClick={(e) => showFormBtn(e, 'number')}><BsWhatsapp /></button>
+                        </div>
+                        <div className='mt-3'>
+                            {showForm && formDisplay()}
+                        </div>
                     </div>
-                    {showForm && formDisplay()}
+                    {itemType === 'image' ? 
+                        <div className='mx-auto' style={{ width: '80vw', height: '70vh' }}>
+                            <img src={'https://drive.google.com/uc?export=view&id='+imgId} alt={imgId} className='image-preview mt-3' width='800px'/>
+                        </div>
+                        :
+                        <video className='mt-3' width='400px' controls="controls" preload="metadata">
+                            <source src={'https://drive.google.com/uc?export=view&id='+imgId} type="video/mp4" />
+                        </video>
+                    }
                 </div>
             </div>}
-            <form onSubmit={uploadImg}>
-                <input className='input-file' id='input-file' type="file" name="Files" onChange={uploadFile} required multiple />
-                {isThereFile && <button className='btn btn-sm btn-primary' type="submit" disabled={!isThereFile}>Submit</button>}
-            </form>
-            <button className='btn btn-info position-absolute end-0' onClick={() => setLockScreen(prev => !prev)}>Lock</button>
             <div className='col d-flex justify-content-center align-items-center flex-wrap image-card-container'>
-                
                 {imageList.map(item => (
-                    <p key={item.id} className='position-relative mx-3 image-card'>
+                    <div key={item.id} className='position-relative mx-3 mb-5 image-card'>
                         <button className='btn btn-info btn-sm position-absolute end-0' onClick={() => deleteImage(item.id)}>X</button>
                         {item.mimeType.includes("image") ? 
-                        <img src={'https://drive.google.com/uc?export=view&id='+item.id} alt={item.name} onClick={() => zoomItem(item.id, 'image')} width='230px'/> : 
-                        <video width='230px' preload="metadata" onClick={() => zoomItem(item.id, 'video')}>
-                            <source src={'https://drive.google.com/uc?export=view&id='+item.id} type="video/mp4" />
-                        </video>}
-                    </p>
+                            <div style={{ height: '250px', width: '250px' }}>
+                                <img src={'https://drive.google.com/uc?export=view&id='+item.id} alt={item.name} className='thumbnail' onClick={() => zoomItem(item.id, 'image')} style={{ width: '100%', height: '100%', objectFit: 'contain' }}/>
+                            </div>
+                            :
+                            <video style={{ height: '250px', width: '250px' }} preload="metadata" onClick={() => zoomItem(item.id, 'video')}>
+                                <source src={'https://drive.google.com/uc?export=view&id='+item.id} type="video/mp4" />
+                            </video>
+                        }
+                    </div>
                 ))}
             </div>
             <div className='text-center'>

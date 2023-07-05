@@ -2,6 +2,20 @@
     height: 100vh;
 }
 .menu-icons {
+    color: #fff;
     height: 100px;
     width: 100px;
+}
+.menu-title {
+    color: #fff;
+}
+
+.menu-col {
+    background-color: #0D6EFD;
+    border-radius: 10px;
+    width: 250px !important;
+    transition: .3s;
+}
+.menu-col:hover {
+    filter: brightness(70%);
 }
